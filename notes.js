@@ -1,12 +1,13 @@
+const chalk = require('chalk');
 const fs = require('fs');
 
-const getNotes = function () {
+const getNotes = () => {
   return 'Your notes...';
 }
 
-const addNote = function (title, body) {
+const addNote = (title, body) => {
   const notes = loadNotes();
-  const duplicateNotes = notes.filter((notes) => note.title === title);
+  const duplicateNotes = notes.filter((note) => note.title === title);
 
   if (duplicateNotes.length === 0) {
     notes.push({
@@ -15,35 +16,30 @@ const addNote = function (title, body) {
     });
 
     saveNotes(notes);
-    console.log(`${title} note added!`);
+    console.log(chalk.green(`${title} note added!`));
   } else {
-    console.log(`${title} note title already exists. Please choose a different title.`);
+    console.log(chalk.inverse.red(`${title} note title already exists. Please choose a different title.`));
   }
-
 }
 
-const removeNote = function (title) {
+const removeNote = (title) => {
   const notes = loadNotes();
+  const notesToKeep = notes.filter((note) => note.title !== title);
 
-  // Refactor to-do
-  // const notesData = JSON.stringify(notes);
-
-  // if (!noteTitles.title) {
-  //   console.log(`${title} note does not exist.`);
-  // } else {
-
-  const result = notes.filter((note) => note.title !== title);
-  
-  saveNotes(result);
-  console.log(`${title} note removed.`);
+  if (notes.length > notesToKeep.length) {
+    console.log(chalk.green(`${title} note removed.`));
+    saveNotes(notesToKeep);
+  } else {
+    console.log(chalk.inverse.red(`${title} note not found.`))
+  }
 }
 
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {
   const notesData = JSON.stringify(notes);
   fs.writeFileSync('notes.json', notesData);
 }
 
-const loadNotes = function () {
+const loadNotes = () => {
   try {
     const data = fs.readFileSync('notes.json');
     const dataJSON = data.toString();
