@@ -5,8 +5,7 @@ const notes = require('./notes');
 
 yargs.version('1.1.0');
 
-// Handlers for 
-
+// Handlers for note actions
 yargs.command({
   command: 'add',
   describe: 'Add a note',
@@ -22,7 +21,7 @@ yargs.command({
       type: 'string',
     }
   },
-  handler: function (argv) {
+  handler(argv) {
     console.log(`Adding note...\nTitle: ${argv.title}`);
   },
   handler: function (argv) {
@@ -40,10 +39,10 @@ yargs.command({
       type: 'string',
     }
   },
-  handler: function () {
+  handler() {
     console.log('Removing note...');
   },
-  handler: function (argv) {
+  handler (argv) {
     notes.removeNote(argv.title);
   }
 });
@@ -51,7 +50,7 @@ yargs.command({
 yargs.command({
   command: 'list',
   describe: 'List all notes',
-  handler: function () {
+  handler() {
     console.log('Listing all notes...');
   }
 });
@@ -59,7 +58,7 @@ yargs.command({
 yargs.command({
   command: 'read',
   describe: 'Read notes',
-  handler: function () {
+  handler() {
     console.log('Reading notes...');
   }
 });
