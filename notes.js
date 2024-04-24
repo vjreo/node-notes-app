@@ -15,9 +15,9 @@ const loadNotes = () => {
 const notes = loadNotes();
 
 const addNote = (title, body) => {
-  const duplicateNotes = notes.filter((note) => note.title === title);
+  const duplicateNote = notes.find((note) => note.title === title);
 
-  if (duplicateNotes.length === 0) {
+  if (!duplicateNote) {
     notes.push({
       title: title,
       body: body,
@@ -57,8 +57,19 @@ const saveNotes = (notes) => {
   fs.writeFileSync('notes.json', notesData);
 }
 
+const readNote = (title) => {
+  const noteToRead = notes.find((note) => note.title === title);
+
+  if(!noteToRead) {
+    console.log(chalk.red.inverse(`The requested note does not exist. Please enter a different title.`));
+  } else {
+    console.log(`${noteToRead.title} \n - ${noteToRead.body}\n`);
+  }
+}
+
 module.exports = {
   addNote: addNote,
   removeNote: removeNote,
   listNotes: listNotes,
+  readNote: readNote,
 }
